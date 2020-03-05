@@ -1,0 +1,6 @@
+.usual-table {
+    position: relative;
+    width: 100%;
+    overflow: auto;
+    background-color: #dddddd30;
+}
