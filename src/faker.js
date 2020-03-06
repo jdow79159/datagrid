@@ -5,10 +5,10 @@ faker.locale = "ru";
 const headers = [
   { title: "ФИО", type: "string" },
   { title: "Имя пользователя", type: "string" },
-  { title: "Дата регистрации", type: "string" },
+  { title: "Дата регистрации", type: "date" },
   { title: "Email", type: "string" },
   { title: "Работа", type: "string" },
-  { title: "ID", type: "number" },
+  { title: "Просмотры", type: "number" },
   { title: "Спортсмен", type: "boolean" },
 ];
 function randomInteger(min, max) {

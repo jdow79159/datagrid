@@ -24,8 +24,8 @@ function App() {
       <div className="container d-flex flex-column" style={{ height: "100vh" }}>
         <ActionPanel />
         <div className="flex-grow-1" ref={refBlock}>
-          {/*<VisualizedTable height={height} />*/}
-          <UsualTable height={height}/>
+          <VisualizedTable height={height} />
+          {/*<UsualTable height={height}/>*/}
         </div>
       </div>
     </Provider>

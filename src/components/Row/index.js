@@ -1,7 +1,7 @@
 import React from "react";
 import {getLeftInRow, widthRow} from "../../utils/functions";
-import {data} from "../../data";
-
+import {data, headers} from "../../data";
+import SwitchDataType from "./../SwitchDataType";
 export default  ({ index, style = {} }) => (
   <div className="row-in-sticky-list" style={style}>
     <div className="sticky-box" style={{width: getLeftInRow(widthRow.length)}}>
@@ -13,7 +13,7 @@ export default  ({ index, style = {} }) => (
           style={{width: widthRow[0], left:  20}}
           className={"row-in-sticky-list-item"}
         >
-          {data[index][0]}
+          <SwitchDataType data={data[index][0]} type={headers[0].type}/>
         </div>
 
       </div>
@@ -23,7 +23,7 @@ export default  ({ index, style = {} }) => (
           className={"row-in-sticky-list-item"}
           key={idx}
         >
-          {el}
+          <SwitchDataType data={el} type={headers[idx].type}/>
         </div>:null
       ))}
     </div>
