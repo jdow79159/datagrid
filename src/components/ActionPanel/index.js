@@ -7,15 +7,16 @@ import SelectButton from "./ActionItems/SelectButton";
 import VisualizationSwitcher from "./ActionItems/VisualizationSwitcher";
 import ColumnVisible from "./ActionItems/ColumnVisible";
 import {headers} from "./../../data";
+import {useSelector} from "react-redux";
 export default () => {
-  const headersList = headers.map(el=>el.title);
+
   return (
     <div>
       <div className="d-flex">
         <VisualizationSwitcher />
       </div>
       <div className="d-flex">
-        <ColumnVisible list={headersList} />
+        <ColumnVisible  />
       </div>
       <div className="d-flex">
         <Delete />

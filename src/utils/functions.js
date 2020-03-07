@@ -1,4 +1,1 @@
-
-export const getLeftInRow = idx =>
-  widthRow.slice(0, idx).reduce((prev, curr) => prev + curr, 0);
-export const widthRow = [200, 200, 200, 200, 150, 100, 100];
+export const sumArray = (arr, n = arr.length) => arr.slice(0, n).reduce((a, b) => a + b, 0);
