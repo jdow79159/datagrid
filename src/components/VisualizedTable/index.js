@@ -8,25 +8,20 @@ export default ({ height }) => {
   StickyListContext.displayName = "StickyListContext";
 
   const ItemWrapper = ({ data, index, style }) => {
-    const { ItemRenderer, stickyIndices } = data;
-    if (stickyIndices && stickyIndices.includes(index)) {
-      return null;
-    }
-    return <ItemRenderer index={index} style={style} />;
+    const { ItemRenderer } = data;
+    const reStyle = {...style, top: (index + 1) * 22};
+    return <ItemRenderer index={index} style={reStyle} />;
   };
 
   const innerElementType = forwardRef(({ children, ...rest }, ref) => (
     <StickyListContext.Consumer>
-      {({ stickyIndices }) => (
+      {() => (
         <div ref={ref} {...rest}>
-          {stickyIndices.map(index => (
             <StickyRow
-              index={index}
-              key={index}
-              style={{ top: index * 22, left: 0, height: 22 }}
+              index={0}
+              // key={index}
+              style={{ top: 0, left: 0, height: 22 }}
             />
-          ))}
-
           {children}
         </div>
       )}
