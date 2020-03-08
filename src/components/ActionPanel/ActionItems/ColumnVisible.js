@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {onToggleVisibleColumn} from "../../../store/action/table";
 
 export default () => {
-    const initialHeaders = useSelector(state=>state.table.initialHeaders);
     const currentHeaders = useSelector(state=>state.table.currentHeaders);
   const SelectItem =({title, checked, idx})=> {
       const dispatch = useDispatch();
@@ -18,6 +17,6 @@ export default () => {
   };
   return <>
     <span>Видимость колонок:</span>
-    {initialHeaders.map((header, idx)=><SelectItem title={header.title}  idx={header.idx} key={idx}/>)}
+    {currentHeaders.map((header, idx)=><SelectItem title={header.title}  checked={header.visible} idx={idx} key={idx}/>)}
     </>
 };

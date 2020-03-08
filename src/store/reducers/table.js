@@ -12,8 +12,7 @@ const initialState = () =>{
   };
   return base;
 };
-const toggleVisibleColumn = (currentArr,initialArr, id)=>{
-};
+
 export default (state = initialState(), action)=>{
   switch (action.type) {
     case TOGGLE_VISUALIZATION: return {
@@ -22,7 +21,12 @@ export default (state = initialState(), action)=>{
     };
     case TOGGLE_VISIBLE_COLUMN: return {
       ...state,
-      currentHeaders: {},
+      currentHeaders: [...state.currentHeaders.map((el, idx)=>{
+        if (idx===action.payload){
+          el.visible=!el.visible
+        };
+        return el;
+      })],
       currentData: [...state.currentData]
     }
     default: return state
