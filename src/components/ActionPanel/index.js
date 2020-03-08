@@ -6,25 +6,24 @@ import SelectList from "./ActionItems/SelectList";
 import SelectButton from "./ActionItems/SelectButton";
 import VisualizationSwitcher from "./ActionItems/VisualizationSwitcher";
 import ColumnVisible from "./ActionItems/ColumnVisible";
-import {headers} from "./../../data";
-import {useSelector} from "react-redux";
+
 export default () => {
 
   return (
     <div>
-      <div className="d-flex">
+      <div className="d-flex flex-wrap py-1">
         <VisualizationSwitcher />
       </div>
-      <div className="d-flex">
+      <div>
         <ColumnVisible  />
       </div>
-      <div className="d-flex">
+      <div className="d-flex flex-wrap py-1">
         <Delete />
         <Sort />
         <Filter />
         <SelectButton />
       </div>
-      <div className="d-flex">
+      <div className="d-flex flex-wrap py-1" style={{visibility:'hidden'}}>
         <SelectList />
       </div>
     </div>

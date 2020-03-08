@@ -8,11 +8,11 @@ const styles = {
     border: '1px solid #999'
   },
   icon: {
-    color: '#555'
+    fontSize: 13.3333
   }
 };
 export default () => (
-  <div style={styles.box}>
+  <div style={styles.box} className="mr-2">
     <input type="text" style={styles.input} />
     <span>
       <i className="fa fa-filter" style={styles.icon} aria-hidden="true" />

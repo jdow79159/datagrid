@@ -48,3 +48,7 @@
 .row-z-index {
     z-index: 1;
 }
+.selected span {
+    background-color: #5290f5;
+    color: white;
+}

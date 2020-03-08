@@ -10,13 +10,13 @@ export default () => {
           <label>
               <input type="checkbox" onChange={()=>{
                   dispatch(onToggleVisibleColumn(idx))
-              }} checked={checked}/>
+              }} checked={checked} />
               {title}
           </label>
       </div>)
   };
   return <>
-    <span>Видимость колонок:</span>
-    {currentHeaders.map((header, idx)=><SelectItem title={header.title}  checked={header.visible} idx={idx} key={idx}/>)}
+    <div>Видимость колонок:</div>
+    <div className="d-flex flex-wrap">{currentHeaders.map((header, idx)=><SelectItem title={header.title}  checked={header.visible} idx={idx} key={idx}/>)}</div>
     </>
 };

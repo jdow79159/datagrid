@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { onToggleVisualization } from "../../../store/action/table";
 
 export default () => {
-  const visualization = useSelector(state => state.table.visualization);
+  const visualization = useSelector(state => state.table.isVisualization);
   const dispatch = useDispatch();
   return (
     <div>

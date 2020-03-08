@@ -3,13 +3,13 @@ const faker = require("faker");
 
 faker.locale = "ru";
 const headers = [
-  { title: "ФИО", type: "string" },
-  { title: "Имя пользователя", type: "string" },
-  { title: "Дата регистрации", type: "date" },
-  { title: "Email", type: "string" },
-  { title: "Работа", type: "string" },
-  { title: "Просмотры", type: "number" },
-  { title: "Спортсмен", type: "boolean" },
+  { title: "ФИО", type: "string", id: faker.random.uuid() },
+  { title: "Имя пользователя", type: "string", id: faker.random.uuid() },
+  { title: "Дата регистрации", type: "date", id: faker.random.uuid() },
+  { title: "Email", type: "string", id: faker.random.uuid() },
+  { title: "Работа", type: "string", id: faker.random.uuid() },
+  { title: "Просмотры", type: "number", id: faker.random.uuid() },
+  { title: "Спортсмен", type: "boolean", id: faker.random.uuid() },
 ];
 function randomInteger(min, max) {
   let rand = min - 0.5 + Math.random() * (max - min + 1);

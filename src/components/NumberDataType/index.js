@@ -1,6 +1,6 @@
 import React from "react";
 export default ({data})=>{
   return <div style={{textAlign: 'right'}}>
-    {(+data).toLocaleString()}
+    <span>{(+data).toLocaleString()}</span>
   </div>
 }

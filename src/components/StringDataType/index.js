@@ -1,6 +1,6 @@
 import React from "react";
 export default ({data})=>{
   return <div style={{textOverflow: 'ellipsis'}}>
-    {data}
+    <span>{data}</span>
   </div>
 }
