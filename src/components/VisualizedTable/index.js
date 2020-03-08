@@ -1,15 +1,16 @@
 import React, { createContext, forwardRef } from "react";
 import { FixedSizeList as List } from "react-window";
-
+import {rowHeight} from "../../config";
 import Row from "./../Row";
 import StickyRow from "./../StickyRow";
+import {useSelector} from "react-redux";
 export default ({ height }) => {
   const StickyListContext = createContext();
   StickyListContext.displayName = "StickyListContext";
-
+  const rowCount = useSelector(state=>state.table.currentData.length);
   const ItemWrapper = ({ data, index, style }) => {
     const { ItemRenderer } = data;
-    const reStyle = {...style, top: (index + 1) * 22};
+    const reStyle = {...style, top: (index + 1) * rowHeight};
     return <ItemRenderer index={index} style={reStyle} />;
   };
 
@@ -19,8 +20,7 @@ export default ({ height }) => {
         <div ref={ref} {...rest}>
             <StickyRow
               index={0}
-              // key={index}
-              style={{ top: 0, left: 0, height: 22 }}
+              style={{ top: 0, left: 0, height: rowHeight }}
             />
           {children}
         </div>
@@ -41,8 +41,8 @@ export default ({ height }) => {
     <StickyList
       height={height}
       innerElementType={innerElementType}
-      itemCount={1000}
-      itemSize={22}
+      itemCount={rowCount}
+      itemSize={rowHeight}
       stickyIndices={[0]}
       width={"100%"}
     >

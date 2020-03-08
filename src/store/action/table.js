@@ -1,4 +1,5 @@
 import {
+   DELETE_SELECTED_ROWS,
   MULTI_SELECT_COLUMN_OFF,
   MULTI_SELECT_COLUMN_ON,
   SELECT_COLUMN, SELECT_ROW,
@@ -31,4 +32,8 @@ export const multiSelectColumnOff = () =>({
 export const onSelectRow = idx =>({
   type: SELECT_ROW,
   payload: idx
+});
+
+export const onDeleteSelectedRows = () =>({
+  type: DELETE_SELECTED_ROWS
 });

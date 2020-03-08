@@ -6,9 +6,11 @@ import SelectList from "./ActionItems/SelectList";
 import SelectButton from "./ActionItems/SelectButton";
 import VisualizationSwitcher from "./ActionItems/VisualizationSwitcher";
 import ColumnVisible from "./ActionItems/ColumnVisible";
+import {useSelector} from "react-redux";
 
 export default () => {
-
+  const isSelectedRows = useSelector(state=>!!state.table.selectedRows.length);
+  const isSelectedColumn = useSelector(state=>!!state.table.selectedColumns.length);
   return (
     <div>
       <div className="d-flex flex-wrap py-1">
@@ -18,10 +20,10 @@ export default () => {
         <ColumnVisible  />
       </div>
       <div className="d-flex flex-wrap py-1">
-        <Delete />
-        <Sort />
-        <Filter />
-        <SelectButton />
+        {isSelectedRows ? null: <Filter />}
+        {isSelectedColumn ?<SelectButton />: null}
+        {isSelectedColumn ?<Sort /> : null}
+        {isSelectedRows ? <Delete /> : null}
       </div>
       <div className="d-flex flex-wrap py-1" style={{visibility:'hidden'}}>
         <SelectList />

@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sumArray } from "../../utils/functions";
 import {multiSelectColumnOff, multiSelectColumnOn, onSelectColumn} from "../../store/action/table";
-import {multiSelectsKeys} from "../../config";
+import {multiSelectsKeys, rowHeight} from "../../config";
 
 export default ({ style = {} }) => {
   const headers = useSelector(state =>
@@ -30,13 +30,14 @@ export default ({ style = {} }) => {
       <div className="sticky-box" style={{ width: sumArray(headersWidthArr) }}>
         {headers.length && headers[0].visible ? (
           <div className="sticky sticky-row-z-index">
-            <div className="input-box" style={{ width: 20, height: 22 }} />
+            <div className="input-box" style={{ width: 20, height: rowHeight }} />
             <div
               style={{
                 width: headersWidthArr[0],
                 left: 20,
                 top: 0,
-                textAlign: "center"
+                textAlign: "center",
+                height: rowHeight
               }}
               className={"row-in-sticky-list-item"}
             >
@@ -58,7 +59,8 @@ export default ({ style = {} }) => {
               style={{
                 width: headersWidthArr[idx],
                 left: sumArray(headersWidthArr, idx) + 20,
-                textAlign: "center"
+                textAlign: "center",
+                height: rowHeight
               }}
               className={"row-in-sticky-list-item"}
               key={idx}

@@ -1,5 +1,6 @@
 import { data, headers } from "./../../data";
 import {
+  DELETE_SELECTED_ROWS,
   MULTI_SELECT_COLUMN_OFF,
   MULTI_SELECT_COLUMN_ON,
   SELECT_COLUMN,
@@ -57,17 +58,20 @@ export default (state = initialState(), action) => {
           ...state,
           selectedColumns: [
             ...state.selectedColumns.filter(el => el !== action.payload)
-          ]
+          ],
+          selectedRows: []
         };
       } else if (state.isMultiSelectColumn) {
         return {
           ...state,
-          selectedColumns: [...state.selectedColumns, action.payload]
+          selectedColumns: [...state.selectedColumns, action.payload],
+          selectedRows: []
         };
       } else
         return {
           ...state,
-          selectedColumns: [action.payload]
+          selectedColumns: [action.payload],
+          selectedRows: []
         };
     case MULTI_SELECT_COLUMN_ON:
       return {
@@ -79,21 +83,27 @@ export default (state = initialState(), action) => {
         ...state,
         isMultiSelectColumn: false
       };
-    case SELECT_ROW: {
+    case SELECT_ROW:
       if (state.selectedRows.includes(action.payload)) {
         return {
           ...state,
           selectedRows: [
             ...state.selectedRows.filter(el => el !== action.payload)
-          ]
+          ],
+          selectedColumns: []
         };
       } else {
         return {
           ...state,
-          selectedRows: [
-            ...state.selectedRows, action.payload
-          ]
+          selectedRows: [...state.selectedRows, action.payload],
+          selectedColumns: []
         };
+      }
+    case DELETE_SELECTED_ROWS: {
+      return {
+        ...state,
+        currentData: state.currentData.filter((_,idx)=>!state.selectedRows.includes(idx)),
+        selectedRows: []
       }
     }
     default:
