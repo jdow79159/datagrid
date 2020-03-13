@@ -47,7 +47,6 @@
 .row-z-index {
     z-index: 1;
 }
-.selected span {
-    background-color: #5290f5;
-    color: white;
+.selected span  {
+    background-color: #f5e1b0;
 }

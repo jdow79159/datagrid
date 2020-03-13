@@ -7,6 +7,7 @@ import DateDataType from "./../DateDataType";
 export default ({data, type})=>{
   switch (type) {
     case 'string': return <StringDataType data={data}/>;
+    case 'enum': return <StringDataType data={data}/>;
     case 'boolean': return <BooleanDataType data={data}/>;
     case 'number': return <NumberDataType data={data}/>;
     case 'date': return <DateDataType data={data}/>;

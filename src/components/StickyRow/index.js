@@ -1,55 +1,44 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { sumArray } from "../../utils/functions";
-import {multiSelectColumnOff, multiSelectColumnOn, onSelectColumn} from "../../store/action/table";
-import {multiSelectsKeys, rowHeight} from "../../config";
+import SortColumn from "./../SortColumn";
+import FilterColumn from "./../FilterColumn";
+import {  rowHeight } from "../../config";
+import "./StickyRow.css";
 
 export default ({ style = {} }) => {
   const headers = useSelector(state =>
     state.table.currentHeaders.filter(el => el.visible)
   );
   const headersWidthArr = headers.map(el => el.width);
-  const dispatch = useDispatch();
-
-  const multiSelectColumn = useSelector(
-    state => state.table.isMultiSelectColumn
-  );
   return (
-    <div className="sticky-in-sticky-list" style={style}         onKeyDown={event => {
-      if (!multiSelectColumn && multiSelectsKeys.includes(event.key)) {
-        dispatch(multiSelectColumnOn());
-        console.log("multiON");
-      }
-    }}
-         onKeyUp={event => {
-           if (multiSelectsKeys.includes(event.key)) {
-             dispatch(multiSelectColumnOff());
-             console.log("multiOFF");
-           }
-         }}>
+    <div
+      className="sticky-in-sticky-list"
+      style={style}
+    >
       <div className="sticky-box" style={{ width: sumArray(headersWidthArr) }}>
         {headers.length && headers[0].visible ? (
           <div className="sticky sticky-row-z-index">
-            <div className="input-box" style={{ width: 20, height: rowHeight }} />
             <div
+              className="input-box"
+              style={{ width: 20, height: rowHeight }}
+            />
+            <div
+
               style={{
                 width: headersWidthArr[0],
                 left: 20,
                 top: 0,
-                textAlign: "center",
                 height: rowHeight
               }}
-              className={"row-in-sticky-list-item"}
-            >
-              <a
-                href={`#${headers[0].title}`}
-                onClick={event => {
-                  event.preventDefault();
-                  dispatch(onSelectColumn(headers[0].id));
-                }}
-              >
+              className={"row-in-sticky-list-item d-flex"}
+            > <div className="flex-grow-1 th-table" style={{textAlign: 'center'}}>
+              <b>
                 {headers[0].title}
-              </a>
+              </b>
+              </div>
+              <SortColumn id={headers[0].id}/>
+              <FilterColumn id={headers[0].id} width={headersWidthArr[0]} type={headers[0].type}/>
             </div>
           </div>
         ) : null}
@@ -62,18 +51,14 @@ export default ({ style = {} }) => {
                 textAlign: "center",
                 height: rowHeight
               }}
-              className={"row-in-sticky-list-item"}
+              className={"row-in-sticky-list-item d-flex"}
               key={idx}
-            >
-              <a
-                href={`#${headers[idx].title}`}
-                onClick={event => {
-                  event.preventDefault();
-                  dispatch(onSelectColumn(headers[idx].id));
-                }}
-              >
+            ><div className="flex-grow-1 th-table">
                 {headers[idx].title}
-              </a>
+            </div>
+
+              <SortColumn id={headers[idx].id}/>
+              <FilterColumn id={headers[idx].id} width={headersWidthArr[idx]} type={headers[idx].type}/>
             </div>
           ) : null
         )}

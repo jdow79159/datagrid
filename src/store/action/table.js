@@ -1,39 +1,46 @@
 import {
-   DELETE_SELECTED_ROWS,
-  MULTI_SELECT_COLUMN_OFF,
-  MULTI_SELECT_COLUMN_ON,
-  SELECT_COLUMN, SELECT_ROW,
+  DELETE_SELECTED_ROWS,
+  MULTI_SORT_OFF,
+  MULTI_SORT_ON,
+  SELECT_ROW,
+  SET_FILTER,
+  TOGGLE_SORTED_COLUMN,
   TOGGLE_VISIBLE_COLUMN,
   TOGGLE_VISUALIZATION
 } from "../types";
 
-export const onToggleVisualization = ()=>({
-  type:TOGGLE_VISUALIZATION
+export const onToggleVisualization = () => ({
+  type: TOGGLE_VISUALIZATION
 });
 
-export const onToggleVisibleColumn = idx =>({
+export const onToggleVisibleColumn = idx => ({
   type: TOGGLE_VISIBLE_COLUMN,
   payload: idx
 });
 
-export const onSelectColumn = id =>({
-  type: SELECT_COLUMN,
+export const multiSortOn = () => ({
+  type: MULTI_SORT_ON
+});
+
+export const multiSortOff = () => ({
+  type: MULTI_SORT_OFF
+});
+
+export const onSelectRow = id => ({
+  type: SELECT_ROW,
   payload: id
 });
 
-export const multiSelectColumnOn = () =>({
-  type: MULTI_SELECT_COLUMN_ON
-});
-
-export const multiSelectColumnOff = () =>({
-  type: MULTI_SELECT_COLUMN_OFF
-});
-
-export const onSelectRow = idx =>({
-  type: SELECT_ROW,
-  payload: idx
-});
-
-export const onDeleteSelectedRows = () =>({
+export const onDeleteSelectedRows = () => ({
   type: DELETE_SELECTED_ROWS
+});
+
+export const onToggleSortedColumn = id => ({
+  type: TOGGLE_SORTED_COLUMN,
+  payload: id
+});
+
+export const onSetFilter = (id, filterValue) => ({
+  type: SET_FILTER,
+  payload: { id, filterValue }
 });

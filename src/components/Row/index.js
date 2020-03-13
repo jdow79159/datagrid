@@ -3,31 +3,26 @@ import { useDispatch, useSelector } from "react-redux";
 import SwitchDataType from "./../SwitchDataType";
 import { sumArray } from "../../utils/functions";
 import { onSelectRow } from "../../store/action/table";
-import {rowHeight} from "../../config";
+import { rowHeight } from "../../config";
+
 export default ({ index, style = {} }) => {
   const headers = useSelector(state => state.table.currentHeaders);
   const headersVisible = headers.filter(el => el.visible);
   const headersWidthArr = headers.filter(el => el.visible).map(el => el.width);
-  const data = useSelector(state =>
-    state.table.currentData.map(el =>
-      el.filter((_, idx) => headers[idx].visible)
-    )
-  );
-  const selectedColumns = useSelector(state =>
-    state.table.selectedColumns.map(el =>
-      headersVisible.findIndex(item => item.id === el)
-    )
-  );
+  const data = useSelector(state =>(
+    state.table.currentData.map(el =>  el.data.filter((_, idx) => headers[idx].visible))
+  ));
+  const rowId = useSelector(state => state.table.currentData[index].id);
   const dispatch = useDispatch();
   const isRowSelected = useSelector(state =>
-    state.table.selectedRows.includes(index)
+    state.table.selectedRows.includes(rowId)
   );
   return (
     <div
       className={
         isRowSelected ? "row-in-sticky-list selected" : "row-in-sticky-list"
       }
-      style={{...style, height: rowHeight}}
+      style={{ ...style, height: rowHeight }}
     >
       <div className="sticky-box" style={{ width: sumArray(headersWidthArr) }}>
         {data.length ? (
@@ -37,18 +32,18 @@ export default ({ index, style = {} }) => {
                 type="checkbox"
                 checked={isRowSelected}
                 onChange={() => {
-                  dispatch(onSelectRow(index));
+                  dispatch(onSelectRow(rowId));
                 }}
               />
             </div>
             {headersVisible.length ? (
               <div
-                style={{ width: headersWidthArr[0], left: 20, height: rowHeight }}
-                className={
-                  selectedColumns.includes(0)
-                    ? "row-in-sticky-list-item selected"
-                    : "row-in-sticky-list-item"
-                }
+                style={{
+                  width: headersWidthArr[0],
+                  left: 20,
+                  height: rowHeight
+                }}
+                className="row-in-sticky-list-item"
               >
                 <SwitchDataType
                   data={data[index][0]}
@@ -66,11 +61,7 @@ export default ({ index, style = {} }) => {
                 left: sumArray(headersWidthArr, idx) + 20,
                 height: rowHeight
               }}
-              className={
-                selectedColumns.includes(idx)
-                  ? "row-in-sticky-list-item selected"
-                  : "row-in-sticky-list-item"
-              }
+              className="row-in-sticky-list-item"
               key={idx}
             >
               <SwitchDataType data={el} type={headersVisible[idx].type} />

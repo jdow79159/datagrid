@@ -1,10 +1,12 @@
+import orderBy from "lodash/orderBy";
 import { data, headers } from "./../../data";
 import {
   DELETE_SELECTED_ROWS,
-  MULTI_SELECT_COLUMN_OFF,
-  MULTI_SELECT_COLUMN_ON,
-  SELECT_COLUMN,
+  MULTI_SORT_OFF,
+  MULTI_SORT_ON,
   SELECT_ROW,
+  SET_FILTER,
+  TOGGLE_SORTED_COLUMN,
   TOGGLE_VISIBLE_COLUMN,
   TOGGLE_VISUALIZATION
 } from "../types";
@@ -18,20 +20,69 @@ const initialState = () => {
       width: widthColumn[idx]
     })),
     initialData: [...data],
+    filteredData: [...data],
     currentHeaders: [...headers].map((el, idx) => ({
       ...el,
+      // title : "Title"
+      // type: "boolean", "string", "number", "date" from data.json
+      // id: "" from data.json
       visible: true,
-      width: widthColumn[idx]
+      width: widthColumn[idx],
+      filterValue: [],
+      sorted: "" // options: "increase", "decrease",  ""
     })),
     currentData: [...data],
     isVisualization: true,
-    selectedColumns: [],
+    sortOrder: [], // [idHeader1, idHeader2] queue
     selectedRows: [],
-    isMultiSelectColumn: false
+    isMultiSelectColumn: false,
+    isMultiSort: false
   };
   return base;
 };
-
+const appFilter = (data, headers) => {
+  const filterTypes = headers.map(el => el.type);
+  const result = filterTypes.reduce((prevData, type, idx) => {
+    if (type === "string") {
+      return prevData.filter(el => {
+        if (headers[idx].filterValue.length) {
+          return el.data[idx].includes(headers[idx].filterValue[0]);
+        } else return true;
+      });
+    }
+    if (type === "boolean") {
+      return prevData.filter(el => {
+        if (headers[idx].filterValue.length) {
+          if (headers[idx].filterValue.length===2) return false;
+          return el.data[idx]!==headers[idx].filterValue[0];
+        } else return true;
+      });
+    }
+    if (type === "number") {
+      return prevData.filter(el => {
+        if (headers[idx].filterValue.length) {
+          return +el.data[idx] >= +headers[idx].filterValue[0] && +el.data[idx] < +headers[idx].filterValue[1];
+        } else return true;
+      });
+    }
+    if (type === "enum") {
+      return prevData.filter(el => {
+        if (headers[idx].filterValue.length) {
+          return !headers[idx].filterValue.includes(el.data[idx]);
+        } else return true;
+      });
+    }
+    if (type === "date") {
+      return prevData.filter(el => {
+        if (headers[idx].filterValue.length) {
+          return el.data[idx] >= headers[idx].filterValue[0] && el.data[idx] < headers[idx].filterValue[1];
+        } else return true;
+      });
+    }
+    else return prevData;
+  }, data);
+  return result;
+};
 export default (state = initialState(), action) => {
   switch (action.type) {
     case TOGGLE_VISUALIZATION:
@@ -49,39 +100,17 @@ export default (state = initialState(), action) => {
             }
             return el;
           })
-        ],
-        currentData: [...state.currentData]
+        ]
       };
-    case SELECT_COLUMN:
-      if (state.selectedColumns.includes(action.payload)) {
-        return {
-          ...state,
-          selectedColumns: [
-            ...state.selectedColumns.filter(el => el !== action.payload)
-          ],
-          selectedRows: []
-        };
-      } else if (state.isMultiSelectColumn) {
-        return {
-          ...state,
-          selectedColumns: [...state.selectedColumns, action.payload],
-          selectedRows: []
-        };
-      } else
-        return {
-          ...state,
-          selectedColumns: [action.payload],
-          selectedRows: []
-        };
-    case MULTI_SELECT_COLUMN_ON:
+    case MULTI_SORT_ON:
       return {
         ...state,
-        isMultiSelectColumn: true
+        isMultiSort: true
       };
-    case MULTI_SELECT_COLUMN_OFF:
+    case MULTI_SORT_OFF:
       return {
         ...state,
-        isMultiSelectColumn: false
+        isMultiSort: false
       };
     case SELECT_ROW:
       if (state.selectedRows.includes(action.payload)) {
@@ -90,22 +119,98 @@ export default (state = initialState(), action) => {
           selectedRows: [
             ...state.selectedRows.filter(el => el !== action.payload)
           ],
-          selectedColumns: []
         };
       } else {
         return {
           ...state,
           selectedRows: [...state.selectedRows, action.payload],
-          selectedColumns: []
         };
       }
     case DELETE_SELECTED_ROWS: {
       return {
         ...state,
-        currentData: state.currentData.filter((_,idx)=>!state.selectedRows.includes(idx)),
+        currentData: state.currentData.filter(el => !state.selectedRows.includes(el.id)),
+        initialData: state.initialData.filter(el => !state.selectedRows.includes(el.id)),
         selectedRows: []
-      }
+      };
     }
+    case TOGGLE_SORTED_COLUMN: {
+      let sortOrder;
+      const headers = state.currentHeaders;
+      if (state.isMultiSort) {
+        if (!state.sortOrder.includes(action.payload)) {
+          sortOrder = [...state.sortOrder, action.payload];
+        } else {
+          sortOrder = [...state.sortOrder];
+        }
+      } else {
+        sortOrder = [action.payload];
+      }
+      const sortOrderIndexes = sortOrder.map(el =>
+        headers.findIndex(item => item.id === el)
+      );
+      const currentHeaders = headers.map(el => {
+        if (el.id === action.payload) {
+          switch (el.sorted) {
+            case "":
+              el.sorted = "asc";
+              break;
+            case "asc":
+              el.sorted = "desc";
+              break;
+            case "desc":
+              el.sorted = "";
+              break;
+            default:
+              el.sorted = "";
+          }
+        } else if (!state.isMultiSort) {
+          el.sorted = "";
+        }
+        return el;
+      });
+      return {
+        ...state,
+        sortOrder,
+        currentHeaders,
+        currentData: orderBy(
+          appFilter(state.initialData, currentHeaders),
+          sortOrderIndexes
+            .filter(idx => currentHeaders[idx].sorted)
+            .map(idx => item => item.data[idx]),
+          sortOrderIndexes
+            .filter(idx => currentHeaders[idx].sorted)
+            .map(idx => currentHeaders[idx].sorted)
+        ),
+        selectedRows: []
+      };
+    }
+    case SET_FILTER: {
+      const currentHeaders = state.currentHeaders.map(el => {
+        if (el.id === action.payload.id) {
+          el.filterValue = [...action.payload.filterValue];
+        }
+        return el;
+      });
+      const sortOrderIndexes = state.sortOrder.map(el =>
+        headers.findIndex(item => item.id === el)
+      );
+      return {
+        ...state,
+        currentHeaders,
+        currentData: orderBy(
+          appFilter(state.initialData, currentHeaders),
+          sortOrderIndexes
+            .filter(idx => currentHeaders[idx].sorted)
+            .map(idx => item => item.data[idx]),
+          sortOrderIndexes
+            .filter(idx => currentHeaders[idx].sorted)
+            .map(idx => currentHeaders[idx].sorted)
+        ),
+        selectedRows: []
+      };
+    }
+
     default:
       return state;
   }

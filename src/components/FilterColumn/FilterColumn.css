@@ -1,0 +1,73 @@
+.filter-column-button {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #999;
+}
+
+.filter-column-button:hover {
+    background-color: #eee;
+}
+.filter-column-filtered {
+    color: #5290f5;
+}
+.filter-column-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.filter-column-modal {
+    background-color: #fff;
+    position: absolute;
+    top: 22px;
+    left: -1px;
+    box-sizing: border-box;
+    border: 1px solid #eee;
+    color: #111;
+}
+
+.filter-column-modal-button-box {
+    display: flex;
+    justify-content: center;
+}
+
+.filter-column-modal-button-box button {
+    margin: 5px;
+}
+
+.filter-column-modal-input {
+    margin: 10px 10px 5px;
+    width: calc(100% - 20px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.date-box {
+    width: calc(100% - 20px);
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 5px;
+}
+
+.string-input-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+.number-box {
+    margin: 5px 0;
+}
+.number-input {
+    width: calc(100% - 40px);
+}
+
+.filter-column-modal-input-left {
+    margin: 10px 10px 5px;
+    width: calc(100% - 20px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

@@ -1,0 +1,18 @@
+.sort-column-button {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #999;
+}
+
+.sort-column-button:hover {
+    background-color: #eee;
+}
+
+.sort-column-arrow {
+    color: #5290f5;
+}
+.sort-column-order{
+    font-size: 0.7rem;
+}
