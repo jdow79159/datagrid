@@ -8,17 +8,22 @@
     "@testing-library/user-event": "^7.2.1",
     "bootstrap": "^4.4.1",
     "date-and-time": "^0.12.0",
+    "gh-pages": "^2.2.0",
     "lodash": "^4.17.15",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-redux": "^7.2.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "react-window": "^1.8.5",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8"
   },
   "scripts": {
     "start": "react-scripts start",
-    "faker": "node src/faker.js"
+    "faker": "node src/faker.js",
+    "build": "react-scripts build",
+    "deploy": "gh-pages -d build -b gh-pages -r https://github.com/jdow79159/datagrid-deploy.git"
   },
   "eslintConfig": {
     "extends": "react-app"

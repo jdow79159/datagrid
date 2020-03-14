@@ -1,14 +1,18 @@
 import React from "react";
 import { Provider } from "react-redux";
 import store from "./store";
-import "bootstrap/dist/css/bootstrap-grid.css";
-import Main from './components/Main'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import {createBrowserHistory} from 'history'
 
+import Main from './components/Main'
+const history = createBrowserHistory();
 
 function App() {
   return (
     <Provider store={store}>
-      <Main/>
+      <Router >
+        <Route path="/" component={Main} />
+      </Router>
     </Provider>
   );
 }

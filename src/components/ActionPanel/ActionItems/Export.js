@@ -7,6 +7,8 @@ export default () => {
   const textHeaders = currentHeaders.join(',');
   const textData = currentData.map(el => el.data.join(",")).join(`
 `);
+  const data = `${textHeaders}
+${textData}`;
   return (
     <div>
     <button
@@ -15,10 +17,7 @@ export default () => {
         let link = document.createElement("a");
         link.download = "new sheet.csv";
         let blob = new Blob(
-          [
-            `${textHeaders}
-${textData}`
-          ],
+          [data],
           { type: "application/csv" }
         );
         link.href = URL.createObjectURL(blob);

@@ -2,6 +2,7 @@ import React, { createRef, useEffect, useState } from "react";
 import ActionPanel from "../ActionPanel";
 import VisualizedTable from "../VisualizedTable";
 import UsualTable from "../UsualTable";
+import "bootstrap/dist/css/bootstrap-grid.css";
 import "./main.css";
 import { useDispatch, useSelector } from "react-redux";
 import { multiSelectsKeys } from "../../config";
@@ -14,7 +15,6 @@ export default () => {
     setHeight(refBlock.current.clientHeight - 20);
   }, [refBlock]);
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     let isMultiSort = false;
