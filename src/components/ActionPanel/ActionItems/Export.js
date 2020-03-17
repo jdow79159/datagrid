@@ -10,7 +10,6 @@ export default () => {
   const data = `${textHeaders}
 ${textData}`;
   return (
-    <div>
     <button
       type="button"
       onClick={() => {
@@ -27,15 +26,5 @@ ${textData}`;
     >
       Экспорт в CSV
     </button>
-      <button
-        type="button"
-        onClick={() => {
-          window.history.pushState(null, null, "/hello");
-        }}
-        className="mr-2"
-      >
-        Тест
-      </button>
-    </div>
   );
 };
